@@ -1,6 +1,6 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 void main() async {
   runApp(MyApp());
@@ -39,18 +39,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 1;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-
-  WebViewController? _webViewController;
   //final homeUrl = 'https://okmall.com/products/view?no=691275&app_test=1';
   final homeUrl = 'https://ritzmall.com';
-
-  final List<Widget> _widgetOptions = <Widget>[
-    Text("MARKET"),
-    Text("POST"),
-    Text("MYPAGE"),
-  ];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -59,9 +49,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   void initState() {
-    _webViewController = WebViewController()
-      ..loadRequest(Uri.parse(homeUrl))
-      ..setJavaScriptMode(JavaScriptMode.unrestricted);
     super.initState();
   }
 
@@ -70,7 +57,9 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: WebViewWidget(controller: _webViewController!),
+        child: InAppWebView(
+          initialUrlRequest: URLRequest(url: Uri.parse(homeUrl)),
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
